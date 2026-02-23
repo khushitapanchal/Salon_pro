@@ -16,7 +16,7 @@ from fastapi.middleware.cors import CORSMiddleware
 # Create tables (for development, consider migrations for production)
 Base.metadata.create_all(bind=engine)
 
-app = FastAPI(title="Salon Customer Management System API")
+application = FastAPI(title="Salon Customer Management System API")
 
 app.add_middleware(
     CORSMiddleware,
