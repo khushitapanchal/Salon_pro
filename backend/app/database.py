@@ -3,6 +3,11 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import os
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
+DATABASE_URL = os.getenv("DATABASE_URL")
 # Replace 'your_password' with the password you set during PostgreSQL installation
 DATABASE_URL = os.getenv(
     "DATABASE_URL",
