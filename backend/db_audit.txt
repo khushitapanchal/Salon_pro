@@ -1,0 +1,6 @@
+Current Date: 2026-02-20
+--------------------------------------------------
+ID: 1 | Date: 2026-02-19 | Status: completed | Amount: 558.0 | Is Today: False
+ID: 2 | Date: 2026-02-21 | Status: pending | Amount: 1839.0 | Is Today: False
+ID: 3 | Date: 2026-02-19 | Status: completed | Amount: 598.0 | Is Today: False
+ID: 4 | Date: 2026-02-20 | Status: pending | Amount: 2096.0 | Is Today: True
