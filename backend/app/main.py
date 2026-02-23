@@ -1,12 +1,12 @@
 from fastapi.middleware.cors import CORSMiddleware
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # change later to frontend URL
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+# app.add_middleware(
+#     CORSMiddleware,
+#     allow_origins=["*"],  # change later to frontend URL
+#     allow_credentials=True,
+#     allow_methods=["*"],
+#     allow_headers=["*"],
+# )
 from fastapi import FastAPI
 from .routes import auth, customers, services, appointments, dashboard, users
 from .database import engine, Base
@@ -16,7 +16,7 @@ from fastapi.middleware.cors import CORSMiddleware
 # Create tables (for development, consider migrations for production)
 Base.metadata.create_all(bind=engine)
 
-application = FastAPI(title="Salon Customer Management System API")
+app = FastAPI(title="Salon Customer Management System API")
 
 app.add_middleware(
     CORSMiddleware,
