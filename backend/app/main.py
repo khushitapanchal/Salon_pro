@@ -12,13 +12,19 @@ app = FastAPI(title="Salon Customer Management System API")
 # Get frontend URL from environment variable
 FRONTEND_URL = os.getenv("FRONTEND_URL")
 
+# Allowed origins list
+origins = [
+    "http://localhost:3000",   # local development
+    "http://127.0.0.1:3000",
+]
+
+# Add production frontend only if it exists
+if FRONTEND_URL:
+    origins.append(FRONTEND_URL)
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",   # local development
-        "http://127.0.0.1:3000",
-        FRONTEND_URL,              # production frontend
-    ],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
