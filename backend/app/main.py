@@ -5,10 +5,17 @@ import os
 
 app = FastAPI(title="Salon Customer Management System API")
 
+# Get frontend URL from environment variable (Railway)
+FRONTEND_URL = os.getenv("FRONTEND_URL")
+
 origins = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
 ]
+
+# Add Railway frontend URL if available
+if FRONTEND_URL:
+    origins.append(FRONTEND_URL)
 
 app.add_middleware(
     CORSMiddleware,
@@ -18,6 +25,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Include Routers
 app.include_router(auth.router)
 app.include_router(customers.router)
 app.include_router(services.router)
@@ -31,4 +39,4 @@ async def root():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("app.main:app", host="127.0.0.1", port=8000, reload=True)
+    uvicorn.run("app.main:app", host="0.0.0.0", port=8000)
