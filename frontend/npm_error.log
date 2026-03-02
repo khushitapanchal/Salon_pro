@@ -1,0 +1,53 @@
+﻿
+> frontend@0.1.0 dev
+> next dev
+
+node.exe : ΓÜá Warning: 
+Next.js inferred your 
+workspace root, but it may 
+not be correct.
+At line:1 char:1
++ & "C:\Program 
+Files\nodejs/node.exe" "C:\Us
+ers\91760\AppData\Roaming\ 
+...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~
+    + CategoryInfo           
+   : NotSpecified: (ΓÜá War  
+  ning: Ne...not be correc   
+ t.:String) [], RemoteExc    
+eption
+    + FullyQualifiedErrorId  
+   : NativeCommandError
+ 
+ We detected multiple 
+lockfiles and selected the 
+directory of 
+D:\projects\salon customer 
+system\package-lock.json as 
+the root directory.
+ To silence this warning, 
+set `turbopack.root` in your 
+Next.js config, or consider 
+removing one of the 
+lockfiles if it's not needed.
+   See https://nextjs.org/doc
+s/app/api-reference/config/ne
+xt-config-js/turbopack#root-d
+irectory for more 
+information.
+ Detected additional 
+lockfiles: 
+   * D:\projects\salon 
+customer system\frontend\pack
+age-lock.json
+
+Γû▓ Next.js 16.1.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.1.68:3000
+
+Γ£ô Starting...
+Γ£ô Ready in 4.2s
+  Reload env: .env.local

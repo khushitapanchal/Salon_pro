@@ -1,26 +1,14 @@
 from fastapi import FastAPI
 from .routes import auth, customers, services, appointments, dashboard, users
-from .database import engine, Base
 from fastapi.middleware.cors import CORSMiddleware
 import os
 
-# Create tables (for development only)
-Base.metadata.create_all(bind=engine)
-
 app = FastAPI(title="Salon Customer Management System API")
 
-# Get frontend URL from environment variable
-FRONTEND_URL = os.getenv("FRONTEND_URL")
-
-# Allowed origins list
 origins = [
-    "http://localhost:3000",   # local development
+    "http://localhost:3000",
     "http://127.0.0.1:3000",
 ]
-
-# Add production frontend only if it exists
-if FRONTEND_URL:
-    origins.append(FRONTEND_URL)
 
 app.add_middleware(
     CORSMiddleware,
@@ -40,3 +28,7 @@ app.include_router(users.router)
 @app.get("/")
 async def root():
     return {"message": "Welcome to SCMS API"}
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("app.main:app", host="127.0.0.1", port=8000, reload=True)

@@ -23,7 +23,6 @@ class UserUpdate(BaseModel):
     password: Optional[str] = None
     service_ids: Optional[List[int]] = None
 
-
 # Service schemas
 class ServiceBase(BaseModel):
     name: str

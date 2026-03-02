@@ -1,0 +1,531 @@
+﻿python : Traceback (most 
+recent call last):
+At line:1 char:1
++ python -m uvicorn 
+app.main:app --port 8000 
+2>&1 | Out-File -FilePath  
+...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo           
+   : NotSpecified: (Traceba  
+  ck (most recent call las   
+ t)::String) [], RemoteEx    
+ception
+    + FullyQualifiedErrorId  
+   : NativeCommandError
+ 
+  File "C:\Users\91760\AppDat
+a\Local\Programs\Python\Pytho
+n314\Lib\site-packages\sqlalc
+hemy\engine\base.py", line 
+143, in __init__
+    self._dbapi_connection = 
+engine.raw_connection()
+                             
+~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\91760\AppDat
+a\Local\Programs\Python\Pytho
+n314\Lib\site-packages\sqlalc
+hemy\engine\base.py", line 
+3309, in raw_connection
+    return 
+self.pool.connect()
+           
+~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\91760\AppDat
+a\Local\Programs\Python\Pytho
+n314\Lib\site-packages\sqlalc
+hemy\pool\base.py", line 
+447, in connect
+    return _ConnectionFairy._
+checkout(self)
+           ~~~~~~~~~~~~~~~~~~
+~~~~~~~~^^^^^^
+  File "C:\Users\91760\AppDat
+a\Local\Programs\Python\Pytho
+n314\Lib\site-packages\sqlalc
+hemy\pool\base.py", line 
+1264, in _checkout
+    fairy = _ConnectionRecord
+.checkout(pool)
+  File "C:\Users\91760\AppDat
+a\Local\Programs\Python\Pytho
+n314\Lib\site-packages\sqlalc
+hemy\pool\base.py", line 
+711, in checkout
+    rec = pool._do_get()
+  File "C:\Users\91760\AppDat
+a\Local\Programs\Python\Pytho
+n314\Lib\site-packages\sqlalc
+hemy\pool\impl.py", line 
+177, in _do_get
+    with util.safe_reraise():
+         ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\91760\AppDat
+a\Local\Programs\Python\Pytho
+n314\Lib\site-packages\sqlalc
+hemy\util\langhelpers.py", 
+line 224, in __exit__
+    raise exc_value.with_trac
+eback(exc_tb)
+  File "C:\Users\91760\AppDat
+a\Local\Programs\Python\Pytho
+n314\Lib\site-packages\sqlalc
+hemy\pool\impl.py", line 
+175, in _do_get
+    return 
+self._create_connection()
+           
+~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\91760\AppDat
+a\Local\Programs\Python\Pytho
+n314\Lib\site-packages\sqlalc
+hemy\pool\base.py", line 
+388, in _create_connection
+    return 
+_ConnectionRecord(self)
+  File "C:\Users\91760\AppDat
+a\Local\Programs\Python\Pytho
+n314\Lib\site-packages\sqlalc
+hemy\pool\base.py", line 
+673, in __init__
+    self.__connect()
+    ~~~~~~~~~~~~~~^^
+  File "C:\Users\91760\AppDat
+a\Local\Programs\Python\Pytho
+n314\Lib\site-packages\sqlalc
+hemy\pool\base.py", line 
+899, in __connect
+    with util.safe_reraise():
+         ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\91760\AppDat
+a\Local\Programs\Python\Pytho
+n314\Lib\site-packages\sqlalc
+hemy\util\langhelpers.py", 
+line 224, in __exit__
+    raise exc_value.with_trac
+eback(exc_tb)
+  File "C:\Users\91760\AppDat
+a\Local\Programs\Python\Pytho
+n314\Lib\site-packages\sqlalc
+hemy\pool\base.py", line 
+895, in __connect
+    self.dbapi_connection = 
+connection = 
+pool._invoke_creator(self)
+                             
+            
+~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\91760\AppDat
+a\Local\Programs\Python\Pytho
+n314\Lib\site-packages\sqlalc
+hemy\engine\create.py", line 
+661, in connect
+    return 
+dialect.connect(*cargs, 
+**cparams)
+           ~~~~~~~~~~~~~~~^^^
+^^^^^^^^^^^^^^^^
+  File "C:\Users\91760\AppDat
+a\Local\Programs\Python\Pytho
+n314\Lib\site-packages\sqlalc
+hemy\engine\default.py", 
+line 630, in connect
+    return self.loaded_dbapi.
+connect(*cargs, **cparams)  
+# type: 
+ignore[no-any-return]  # 
+NOQA: E501
+           ~~~~~~~~~~~~~~~~~~
+~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\91760\AppDat
+a\Local\Programs\Python\Pytho
+n314\Lib\site-packages\psycop
+g2\__init__.py", line 135, 
+in connect
+    conn = _connect(dsn, conn
+ection_factory=connection_fac
+tory, **kwasync)
+psycopg2.OperationalError: 
+could not translate host 
+name "db.yggfxlbzjrqemdadkag.
+supabase.co" to address: 
+Name or service not known
+
+
+The above exception was the 
+direct cause of the 
+following exception:
+
+Traceback (most recent call 
+last):
+  File "<frozen runpy>", 
+line 198, in 
+_run_module_as_main
+  File "<frozen runpy>", 
+line 88, in _run_code
+  File "C:\Users\91760\AppDat
+a\Local\Programs\Python\Pytho
+n314\Lib\site-packages\uvicor
+n\__main__.py", line 4, in 
+<module>
+    uvicorn.main()
+    ~~~~~~~~~~~~^^
+  File "C:\Users\91760\AppDat
+a\Local\Programs\Python\Pytho
+n314\Lib\site-packages\click\
+core.py", line 1485, in 
+__call__
+    return self.main(*args, 
+**kwargs)
+           
+~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\91760\AppDat
+a\Local\Programs\Python\Pytho
+n314\Lib\site-packages\click\
+core.py", line 1406, in main
+    rv = self.invoke(ctx)
+  File "C:\Users\91760\AppDat
+a\Local\Programs\Python\Pytho
+n314\Lib\site-packages\click\
+core.py", line 1269, in 
+invoke
+    return 
+ctx.invoke(self.callback, 
+**ctx.params)
+           ~~~~~~~~~~^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\91760\AppDat
+a\Local\Programs\Python\Pytho
+n314\Lib\site-packages\click\
+core.py", line 824, in invoke
+    return callback(*args, 
+**kwargs)
+  File "C:\Users\91760\AppDat
+a\Local\Programs\Python\Pytho
+n314\Lib\site-packages\uvicor
+n\main.py", line 424, in main
+    run(
+    ~~~^
+        app,
+        ^^^^
+    ...<46 lines>...
+        h11_max_incomplete_ev
+ent_size=h11_max_incomplete_e
+vent_size,
+        ^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\91760\AppDat
+a\Local\Programs\Python\Pytho
+n314\Lib\site-packages\uvicor
+n\main.py", line 594, in run
+    server.run()
+    ~~~~~~~~~~^^
+  File "C:\Users\91760\AppDat
+a\Local\Programs\Python\Pytho
+n314\Lib\site-packages\uvicor
+n\server.py", line 67, in run
+    return asyncio_run(self.s
+erve(sockets=sockets), loop_f
+actory=self.config.get_loop_f
+actory())
+  File "C:\Users\91760\AppDat
+a\Local\Programs\Python\Pytho
+n314\Lib\asyncio\runners.py",
+ line 204, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "C:\Users\91760\AppDat
+a\Local\Programs\Python\Pytho
+n314\Lib\asyncio\runners.py",
+ line 127, in run
+    return self._loop.run_unt
+il_complete(task)
+           ~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~^^^^^^
+  File "C:\Users\91760\AppDat
+a\Local\Programs\Python\Pytho
+n314\Lib\asyncio\base_events.
+py", line 719, in 
+run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "C:\Users\91760\AppDat
+a\Local\Programs\Python\Pytho
+n314\Lib\site-packages\uvicor
+n\server.py", line 71, in 
+serve
+    await 
+self._serve(sockets)
+  File "C:\Users\91760\AppDat
+a\Local\Programs\Python\Pytho
+n314\Lib\site-packages\uvicor
+n\server.py", line 78, in 
+_serve
+    config.load()
+    ~~~~~~~~~~~^^
+  File "C:\Users\91760\AppDat
+a\Local\Programs\Python\Pytho
+n314\Lib\site-packages\uvicor
+n\config.py", line 439, in 
+load
+    self.loaded_app = 
+import_from_string(self.app)
+                      
+~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\91760\AppDat
+a\Local\Programs\Python\Pytho
+n314\Lib\site-packages\uvicor
+n\importer.py", line 19, in 
+import_from_string
+    module = importlib.import
+_module(module_str)
+  File "C:\Users\91760\AppDat
+a\Local\Programs\Python\Pytho
+n314\Lib\importlib\__init__.p
+y", line 88, in import_module
+    return _bootstrap._gcd_im
+port(name[level:], package, 
+level)
+           ~~~~~~~~~~~~~~~~~~
+~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^
+  File "<frozen 
+importlib._bootstrap>", line 
+1398, in _gcd_import
+  File "<frozen 
+importlib._bootstrap>", line 
+1371, in _find_and_load
+  File "<frozen 
+importlib._bootstrap>", line 
+1342, in 
+_find_and_load_unlocked
+  File "<frozen 
+importlib._bootstrap>", line 
+938, in _load_unlocked
+  File "<frozen importlib._bo
+otstrap_external>", line 
+759, in exec_module
+  File "<frozen 
+importlib._bootstrap>", line 
+491, in 
+_call_with_frames_removed
+  File "D:\projects\salon 
+customer 
+system\backend\app\main.py", 
+line 8, in <module>
+    try:
+  File "C:\Users\91760\AppDat
+a\Local\Programs\Python\Pytho
+n314\Lib\site-packages\sqlalc
+hemy\sql\schema.py", line 
+5928, in create_all
+    bind._run_ddl_visitor(
+    ~~~~~~~~~~~~~~~~~~~~~^
+        ddl.SchemaGenerator, 
+self, checkfirst=checkfirst, 
+tables=tables
+        ^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\91760\AppDat
+a\Local\Programs\Python\Pytho
+n314\Lib\site-packages\sqlalc
+hemy\engine\base.py", line 
+3259, in _run_ddl_visitor
+    with self.begin() as 
+conn:
+         ~~~~~~~~~~^^
+  File "C:\Users\91760\AppDat
+a\Local\Programs\Python\Pytho
+n314\Lib\contextlib.py", 
+line 141, in __enter__
+    return next(self.gen)
+  File "C:\Users\91760\AppDat
+a\Local\Programs\Python\Pytho
+n314\Lib\site-packages\sqlalc
+hemy\engine\base.py", line 
+3249, in begin
+    with self.connect() as 
+conn:
+         ~~~~~~~~~~~~^^
+  File "C:\Users\91760\AppDat
+a\Local\Programs\Python\Pytho
+n314\Lib\site-packages\sqlalc
+hemy\engine\base.py", line 
+3285, in connect
+    return 
+self._connection_cls(self)
+           
+~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\91760\AppDat
+a\Local\Programs\Python\Pytho
+n314\Lib\site-packages\sqlalc
+hemy\engine\base.py", line 
+145, in __init__
+    Connection._handle_dbapi_
+exception_noconnection(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~^
+        err, dialect, engine
+        ^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\91760\AppDat
+a\Local\Programs\Python\Pytho
+n314\Lib\site-packages\sqlalc
+hemy\engine\base.py", line 
+2448, in _handle_dbapi_except
+ion_noconnection
+    raise sqlalchemy_exceptio
+n.with_traceback(exc_info[2])
+ from e
+  File "C:\Users\91760\AppDat
+a\Local\Programs\Python\Pytho
+n314\Lib\site-packages\sqlalc
+hemy\engine\base.py", line 
+143, in __init__
+    self._dbapi_connection = 
+engine.raw_connection()
+                             
+~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\91760\AppDat
+a\Local\Programs\Python\Pytho
+n314\Lib\site-packages\sqlalc
+hemy\engine\base.py", line 
+3309, in raw_connection
+    return 
+self.pool.connect()
+           
+~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\91760\AppDat
+a\Local\Programs\Python\Pytho
+n314\Lib\site-packages\sqlalc
+hemy\pool\base.py", line 
+447, in connect
+    return _ConnectionFairy._
+checkout(self)
+           ~~~~~~~~~~~~~~~~~~
+~~~~~~~~^^^^^^
+  File "C:\Users\91760\AppDat
+a\Local\Programs\Python\Pytho
+n314\Lib\site-packages\sqlalc
+hemy\pool\base.py", line 
+1264, in _checkout
+    fairy = _ConnectionRecord
+.checkout(pool)
+  File "C:\Users\91760\AppDat
+a\Local\Programs\Python\Pytho
+n314\Lib\site-packages\sqlalc
+hemy\pool\base.py", line 
+711, in checkout
+    rec = pool._do_get()
+  File "C:\Users\91760\AppDat
+a\Local\Programs\Python\Pytho
+n314\Lib\site-packages\sqlalc
+hemy\pool\impl.py", line 
+177, in _do_get
+    with util.safe_reraise():
+         ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\91760\AppDat
+a\Local\Programs\Python\Pytho
+n314\Lib\site-packages\sqlalc
+hemy\util\langhelpers.py", 
+line 224, in __exit__
+    raise exc_value.with_trac
+eback(exc_tb)
+  File "C:\Users\91760\AppDat
+a\Local\Programs\Python\Pytho
+n314\Lib\site-packages\sqlalc
+hemy\pool\impl.py", line 
+175, in _do_get
+    return 
+self._create_connection()
+           
+~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\91760\AppDat
+a\Local\Programs\Python\Pytho
+n314\Lib\site-packages\sqlalc
+hemy\pool\base.py", line 
+388, in _create_connection
+    return 
+_ConnectionRecord(self)
+  File "C:\Users\91760\AppDat
+a\Local\Programs\Python\Pytho
+n314\Lib\site-packages\sqlalc
+hemy\pool\base.py", line 
+673, in __init__
+    self.__connect()
+    ~~~~~~~~~~~~~~^^
+  File "C:\Users\91760\AppDat
+a\Local\Programs\Python\Pytho
+n314\Lib\site-packages\sqlalc
+hemy\pool\base.py", line 
+899, in __connect
+    with util.safe_reraise():
+         ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\91760\AppDat
+a\Local\Programs\Python\Pytho
+n314\Lib\site-packages\sqlalc
+hemy\util\langhelpers.py", 
+line 224, in __exit__
+    raise exc_value.with_trac
+eback(exc_tb)
+  File "C:\Users\91760\AppDat
+a\Local\Programs\Python\Pytho
+n314\Lib\site-packages\sqlalc
+hemy\pool\base.py", line 
+895, in __connect
+    self.dbapi_connection = 
+connection = 
+pool._invoke_creator(self)
+                             
+            
+~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\91760\AppDat
+a\Local\Programs\Python\Pytho
+n314\Lib\site-packages\sqlalc
+hemy\engine\create.py", line 
+661, in connect
+    return 
+dialect.connect(*cargs, 
+**cparams)
+           ~~~~~~~~~~~~~~~^^^
+^^^^^^^^^^^^^^^^
+  File "C:\Users\91760\AppDat
+a\Local\Programs\Python\Pytho
+n314\Lib\site-packages\sqlalc
+hemy\engine\default.py", 
+line 630, in connect
+    return self.loaded_dbapi.
+connect(*cargs, **cparams)  
+# type: 
+ignore[no-any-return]  # 
+NOQA: E501
+           ~~~~~~~~~~~~~~~~~~
+~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\91760\AppDat
+a\Local\Programs\Python\Pytho
+n314\Lib\site-packages\psycop
+g2\__init__.py", line 135, 
+in connect
+    conn = _connect(dsn, conn
+ection_factory=connection_fac
+tory, **kwasync)
+sqlalchemy.exc.OperationalErr
+or: 
+(psycopg2.OperationalError) 
+could not translate host 
+name "db.yggfxlbzjrqemdadkag.
+supabase.co" to address: 
+Name or service not known
+
+(Background on this error 
+at: https://sqlalche.me/e/20/
+e3q8)
