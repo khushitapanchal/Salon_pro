@@ -80,13 +80,23 @@ def get_detailed_reports(db: Session = Depends(database.get_db), current_user: m
         models.Appointment.date >= thirty_days_ago
     ).group_by(models.Appointment.date).order_by(models.Appointment.date).all()
 
-    # 2. Monthly Revenue (PostgreSQL compatible)
-    monthly_revenue = db.query(
-        func.to_char(models.Appointment.date, "YYYY-MM").label("month"),
-        func.sum(models.Appointment.total_amount).label("revenue")
-    ).filter(
-        models.Appointment.status == "completed"
-    ).group_by(func.to_char(models.Appointment.date, "YYYY-MM")).order_by("month").all()
+    # 2. Monthly Revenue (Handled for both SQLite and PostgreSQL)
+    if database.engine.name == 'sqlite':
+        monthly_revenue = db.query(
+            func.strftime("%Y-%m", models.Appointment.date).label("month"),
+            func.sum(models.Appointment.total_amount).label("revenue")
+        ).filter(
+            models.Appointment.status == "completed"
+        ).group_by(func.strftime("%Y-%m", models.Appointment.date)).order_by("month").all()
+    else:
+        # PostgreSQL compatible
+        monthly_revenue = db.query(
+            func.to_char(models.Appointment.date, "YYYY-MM").label("month"),
+            func.sum(models.Appointment.total_amount).label("revenue")
+        ).filter(
+            models.Appointment.status == "completed"
+        ).group_by(func.to_char(models.Appointment.date, "YYYY-MM")).order_by("month").all()
+
 
     # 3. Most Popular Services
     popular_services = db.query(

@@ -25,7 +25,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} ${outfit.variable}`}>
-      <body className="font-sans antialiased text-slate-900 bg-slate-50">
+      <body className="font-sans antialiased text-slate-900 bg-slate-50" suppressHydrationWarning>
         <AuthProvider>
           {children}
         </AuthProvider>

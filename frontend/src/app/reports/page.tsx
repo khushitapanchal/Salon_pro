@@ -17,7 +17,7 @@ import {
 } from 'recharts';
 
 export default function ReportsPage() {
-    const { user: currentUser } = useAuth();
+    const { user: currentUser, loading: authLoading } = useAuth();
     const [reports, setReports] = useState<any>(null);
     const [loading, setLoading] = useState(true);
 
@@ -37,8 +37,10 @@ export default function ReportsPage() {
     };
 
     useEffect(() => {
-        fetchReports();
-    }, []);
+        if (!authLoading && currentUser?.role === 'admin') {
+            fetchReports();
+        }
+    }, [currentUser, authLoading]);
 
     if (loading) return (
         <DashboardLayout>
