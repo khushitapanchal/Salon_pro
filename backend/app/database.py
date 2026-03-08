@@ -3,10 +3,13 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-# Get DATABASE_URL from Railway environment variables or use local SQLite
-DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./salon.db")
+# Get DATABASE_URL from Railway environment variables or use local PostgreSQL
+DATABASE_URL = os.getenv(
+    "DATABASE_URL",
+    "postgresql://postgres:Khushita@123@localhost:5432/salon_db"
+)
 
-# Fix for Railway/PostgreSQL URL format string if necessary
+# Fix for Railway/PostgreSQL URL format
 if DATABASE_URL.startswith("postgres://"):
     DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
 
@@ -22,7 +25,6 @@ SessionLocal = sessionmaker(
     autoflush=False,
     bind=engine
 )
-
 
 Base = declarative_base()
 
