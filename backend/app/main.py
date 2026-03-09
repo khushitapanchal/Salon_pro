@@ -1,11 +1,18 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.routes import auth, appointments, customers, dashboard, services, users
 from app import models
 from app.database import engine
-from app.routes import create_admin
 
+from app.routes import (
+    auth,
+    appointments,
+    customers,
+    dashboard,
+    services,
+    users,
+    create_admin
+)
 
 # Create database tables
 models.Base.metadata.create_all(bind=engine)
@@ -15,16 +22,22 @@ app = FastAPI(
     version="1.0.0"
 )
 
+# Allowed frontend origins
+origins = [
+    "http://localhost:3000",  # local development
+    "https://salon-pro-git-main-khushitapanchals-projects.vercel.app"  # Vercel frontend
+]
+
 # CORS configuration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # change to frontend URL in production
+    allow_origins=origins,   # use specific domains instead of "*"
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Include API routers with prefixes
+# Include API routers
 app.include_router(create_admin.router)
 app.include_router(auth.router, prefix="/auth", tags=["Auth"])
 app.include_router(users.router, prefix="/users", tags=["Users"])
