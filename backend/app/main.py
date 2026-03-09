@@ -25,7 +25,7 @@ app = FastAPI(
 # Allowed frontend origins
 origins = [
     "http://localhost:3000",  # local development
-    "https://salon-pro-git-main-khushitapanchals-projects.vercel.app"  # Vercel frontend
+    "https://salon-mh5m21n7h-khushitapanchals-projects.vercel.app"  # Vercel frontend
 ]
 
 # CORS configuration
