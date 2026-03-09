@@ -106,7 +106,8 @@ export default function UsersPage() {
             setIsModalOpen(false);
             fetchUsers();
         } catch (err: any) {
-            setError(err.response?.data?.detail || 'An error occurred');
+            const detail = err.response?.data?.detail;
+            setError(Array.isArray(detail) ? detail[0]?.msg : (detail || 'An error occurred'));
         }
     };
 
@@ -127,7 +128,7 @@ export default function UsersPage() {
     };
 
     // If current user is not admin, they are unauthorized to see this page.
-    if (currentUser?.role !== 'admin') {
+    if (currentUser?.role?.toLowerCase() !== 'admin') {
         return (
             <DashboardLayout>
                 <div className="flex items-center justify-center h-[70vh]">
@@ -218,7 +219,7 @@ export default function UsersPage() {
                                     </div>
                                 </td>
                                 <td className="px-10 py-6">
-                                    <span className={`px-5 py-2 rounded-2xl text-[9px] font-black uppercase tracking-[0.2em] shadow-lg border ${u.role === 'admin'
+                                    <span className={`px-5 py-2 rounded-2xl text-[9px] font-black uppercase tracking-[0.2em] shadow-lg border ${u.role?.toLowerCase() === 'admin'
                                         ? 'bg-purple-600 text-white border-purple-500 shadow-purple-200/50'
                                         : 'bg-navy-900 text-white border-navy-800 shadow-navy-100/50'
                                         }`}>
@@ -268,8 +269,9 @@ export default function UsersPage() {
                             </button>
                         </div>
 
-                        <form id="user-form" onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-12 custom-scrollbar space-y-8">
-                            {error && <div className="p-5 bg-rose-50 text-rose-600 rounded-[2rem] text-[10px] font-black uppercase tracking-[0.2em] border border-rose-100 shadow-inner">{error}</div>}
+                        <form id="user-form" onSubmit={handleSubmit} className="flex flex-col flex-1 overflow-hidden">
+                            <div className="flex-1 overflow-y-auto p-12 custom-scrollbar space-y-8">
+                                {error && <div className="p-5 bg-rose-50 text-rose-600 rounded-[2rem] text-[10px] font-black uppercase tracking-[0.2em] border border-rose-100 shadow-inner">{error}</div>}
 
                             <div className="space-y-8">
                                 <div>
@@ -402,29 +404,24 @@ export default function UsersPage() {
                                     </div>
                                 )}
                             </div>
-                        </form>
+                            </div>
 
-                        <div className="p-12 border-t border-slate-100 bg-slate-50/30 flex justify-end gap-5 shadow-inner">
-                            <button
-                                type="button"
-                                onClick={() => setIsModalOpen(false)}
-                                className="px-10 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 bg-white border border-slate-200 hover:bg-slate-50 rounded-[1.5rem] transition-all active:scale-95 shadow-sm"
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                type="submit"
-                                form="user-form"
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    const form = document.getElementById('user-form') as HTMLFormElement;
-                                    form.requestSubmit();
-                                }}
-                                className="px-12 py-5 bg-navy-900 text-white rounded-[1.5rem] hover:bg-navy-800 font-black uppercase tracking-[0.3em] text-[10px] shadow-2xl shadow-navy-900/20 transition-all active:scale-95 border border-navy-800"
-                            >
-                                {editingUser ? 'Finalize Updates' : 'Add User/Staff'}
-                            </button>
-                        </div>
+                            <div className="p-12 border-t border-slate-100 bg-slate-50/30 flex justify-end gap-5 shadow-inner">
+                                <button
+                                    type="button"
+                                    onClick={() => setIsModalOpen(false)}
+                                    className="px-10 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 bg-white border border-slate-200 hover:bg-slate-50 rounded-[1.5rem] transition-all active:scale-95 shadow-sm"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="submit"
+                                    className="px-12 py-5 bg-navy-900 text-white rounded-[1.5rem] hover:bg-navy-800 font-black uppercase tracking-[0.3em] text-[10px] shadow-2xl shadow-navy-900/20 transition-all active:scale-95 border border-navy-800"
+                                >
+                                    {editingUser ? 'Finalize Updates' : 'Add User/Staff'}
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             )}

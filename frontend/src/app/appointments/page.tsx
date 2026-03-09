@@ -66,10 +66,10 @@ export default function AppointmentsPage() {
 
     const fetchData = async () => {
         try {
-            const appRes = await api.get('/appointments/').catch(() => ({ data: [] }));
-            const custRes = await api.get('/customers/').catch(() => ({ data: [] }));
-            const servRes = await api.get('/services/').catch(() => ({ data: [] }));
-            const usersRes = await api.get('/users/').catch(() => ({ data: [] }));
+            const appRes = await api.get('/appointments').catch(() => ({ data: [] }));
+            const custRes = await api.get('/customers').catch(() => ({ data: [] }));
+            const servRes = await api.get('/services').catch(() => ({ data: [] }));
+            const usersRes = await api.get('/users').catch(() => ({ data: [] }));
 
             setAppointments(appRes.data);
             setCustomers(custRes.data);
@@ -103,7 +103,7 @@ export default function AppointmentsPage() {
                 const sanitizedData: any = { ...newCustomerData };
                 if (!sanitizedData.notes) delete sanitizedData.notes;
 
-                const custRes = await api.post('/customers/', sanitizedData);
+                const custRes = await api.post('/customers', sanitizedData);
                 customerId = custRes.data.id;
             }
 
@@ -128,7 +128,7 @@ export default function AppointmentsPage() {
             if (editingAppointment) {
                 await api.put(`/appointments/${editingAppointment.id}`, data);
             } else {
-                await api.post('/appointments/', data);
+                await api.post('/appointments', data);
             }
             setShowModal(false);
             setEditingAppointment(null);
@@ -263,7 +263,7 @@ export default function AppointmentsPage() {
                                     </td>
                                     <td className="px-6 py-4 text-right">
                                         <div className="flex justify-end gap-2 transition-all">
-                                            {currentUser?.role === 'admin' ? (
+                                            {currentUser?.role?.toLowerCase() === 'admin' ? (
                                                 <>
                                                     {app.status === 'pending' && (
                                                         <>

@@ -7,7 +7,7 @@ from .auth import get_current_user
 
 router = APIRouter()
 
-@router.post("/", response_model=schemas.AppointmentResponse)
+@router.post("", response_model=schemas.AppointmentResponse)
 def create_appointment(appointment: schemas.AppointmentCreate, db: Session = Depends(database.get_db), current_user: models.User = Depends(get_current_user)):
     # Verify customer exists
     customer = db.query(models.Customer).filter(models.Customer.id == appointment.customer_id).first()
@@ -34,7 +34,7 @@ def create_appointment(appointment: schemas.AppointmentCreate, db: Session = Dep
     db.refresh(db_appointment)
     return db_appointment
 
-@router.get("/", response_model=List[schemas.AppointmentResponse])
+@router.get("", response_model=List[schemas.AppointmentResponse])
 def get_appointments(db: Session = Depends(database.get_db), current_user: models.User = Depends(get_current_user)):
     return db.query(models.Appointment).all()
 

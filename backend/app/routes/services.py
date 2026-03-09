@@ -6,7 +6,7 @@ from .auth import get_current_user
 
 router = APIRouter()
 
-@router.post("/", response_model=schemas.ServiceResponse)
+@router.post("", response_model=schemas.ServiceResponse)
 def create_service(service: schemas.ServiceCreate, db: Session = Depends(database.get_db), current_user: models.User = Depends(get_current_user)):
     # Only admin can create services
     if current_user.role != "admin":
@@ -18,7 +18,7 @@ def create_service(service: schemas.ServiceCreate, db: Session = Depends(databas
     db.refresh(db_service)
     return db_service
 
-@router.get("/", response_model=List[schemas.ServiceResponse])
+@router.get("", response_model=List[schemas.ServiceResponse])
 def get_services(db: Session = Depends(database.get_db), current_user: models.User = Depends(get_current_user)):
     services = db.query(models.Service).all()
     return services

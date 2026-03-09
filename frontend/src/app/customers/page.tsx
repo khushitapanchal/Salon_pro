@@ -30,7 +30,7 @@ export default function CustomersPage() {
 
     const fetchCustomers = async () => {
         try {
-            const response = await api.get('/customers/');
+            const response = await api.get('/customers');
             setCustomers(response.data);
         } catch (error) {
             console.error('Failed to fetch customers', error);
@@ -47,7 +47,7 @@ export default function CustomersPage() {
             if (editingCustomer) {
                 await api.put(`/customers/${editingCustomer.id}`, formData);
             } else {
-                await api.post('/customers/', formData);
+                await api.post('/customers', formData);
             }
             setShowModal(false);
             setEditingCustomer(null);
@@ -199,7 +199,7 @@ export default function CustomersPage() {
                                 </td>
                                 <td className="px-8 py-5 text-right" onClick={(e) => e.stopPropagation()}>
                                     <div className="flex justify-end gap-2 transition-all">
-                                        {currentUser?.role === 'admin' && (
+                                        {currentUser?.role?.toLowerCase() === 'admin' && (
                                             <>
                                                 <button onClick={() => handleEdit(customer)} className="p-2.5 text-purple-600 bg-purple-50 hover:bg-purple-600 hover:text-white rounded-xl transition-all border border-purple-100 shadow-sm active:scale-90">
                                                     <Edit2 size={16} />
@@ -301,7 +301,7 @@ export default function CustomersPage() {
                                         </div>
                                     </div>
                                 </div>
-                                {currentUser?.role === 'admin' && (
+                                {currentUser?.role?.toLowerCase() === 'admin' && (
                                     <button
                                         onClick={() => {
                                             handleEdit(selectedProfile.customer);
@@ -364,7 +364,7 @@ export default function CustomersPage() {
                                                         <div>
                                                             <div className="flex items-center gap-3">
                                                                 <span className="text-xl font-display font-black text-navy-950 tracking-tight">{visit.date}</span>
-                                                                {currentUser?.role === 'admin' && (
+                                                                {currentUser?.role?.toLowerCase() === 'admin' && (
                                                                     <div className="flex gap-2">
                                                                         <button
                                                                             onClick={async () => {

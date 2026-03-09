@@ -19,9 +19,10 @@ export default function ServicesPage() {
     const [showModal, setShowModal] = useState(false);
     const [editingService, setEditingService] = useState<Service | null>(null);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
 
     const { user } = useAuth();
-    const isAdmin = user?.role === 'admin';
+    const isAdmin = user?.role?.toLowerCase() === 'admin';
 
     const [formData, setFormData] = useState({
         name: '',
@@ -32,7 +33,7 @@ export default function ServicesPage() {
 
     const fetchServices = async () => {
         try {
-            const response = await api.get('/services/');
+            const response = await api.get('/services');
             setServices(response.data);
         } catch (error) {
             console.error('Failed to fetch services:', error);
@@ -52,7 +53,7 @@ export default function ServicesPage() {
             if (editingService) {
                 await api.put(`/services/${editingService.id}`, formData);
             } else {
-                await api.post('/services/', formData);
+                await api.post('/services', formData);
             }
             setShowModal(false);
             setEditingService(null);
@@ -63,8 +64,10 @@ export default function ServicesPage() {
                 duration: 30
             });
             fetchServices();
-        } catch (error) {
-            console.error('Failed to save service:', error);
+        } catch (err: any) {
+            console.error('Failed to save service:', err);
+            const detail = err.response?.data?.detail;
+            setError(Array.isArray(detail) ? detail[0]?.msg : (detail || 'Failed to save service. Please check your inputs.'));
         }
     };
 
@@ -115,6 +118,7 @@ export default function ServicesPage() {
                                     price: 0,
                                     duration: 30
                                 });
+                                setError('');
                                 setShowModal(true);
                             }}
                             className="bg-navy-900 text-white px-8 py-4 rounded-2xl flex items-center gap-3 hover:bg-navy-800 transition-all shadow-premium font-black uppercase tracking-widest text-[10px] active:scale-95 group relative overflow-hidden"
@@ -198,6 +202,7 @@ export default function ServicesPage() {
                                                                     price: service.price,
                                                                     duration: service.duration
                                                                 });
+                                                                setError('');
                                                                 setShowModal(true);
                                                             }}
                                                             className="p-3 text-slate-400 hover:text-purple-600 hover:bg-white rounded-2xl transition-all border border-transparent hover:border-purple-100 shadow-sm"
@@ -252,6 +257,7 @@ export default function ServicesPage() {
                         </div>
 
                         <form onSubmit={handleSubmit} className="space-y-8">
+                            {error && <div className="p-4 bg-rose-50 text-rose-600 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] border border-rose-100">{error}</div>}
                             <div className="space-y-6">
                                 <div className="group">
                                     <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 ml-1 group-focus-within:text-purple-600 transition-colors">Service Nomenclature</label>

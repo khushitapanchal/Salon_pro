@@ -6,7 +6,7 @@ from .auth import get_current_user
 
 router = APIRouter()
 
-@router.post("/", response_model=schemas.CustomerResponse)
+@router.post("", response_model=schemas.CustomerResponse)
 def create_customer(customer: schemas.CustomerCreate, db: Session = Depends(database.get_db), current_user: models.User = Depends(get_current_user)):
     data = customer.dict()
     # Convert empty strings to None for optional fields
@@ -20,7 +20,7 @@ def create_customer(customer: schemas.CustomerCreate, db: Session = Depends(data
     db.refresh(db_customer)
     return db_customer
 
-@router.get("/", response_model=List[schemas.CustomerResponse])
+@router.get("", response_model=List[schemas.CustomerResponse])
 def get_customers(skip: int = 0, limit: int = 100, db: Session = Depends(database.get_db), current_user: models.User = Depends(get_current_user)):
     customers = db.query(models.Customer).offset(skip).limit(limit).all()
     return customers

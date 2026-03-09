@@ -6,7 +6,7 @@ from .auth import get_current_user, get_admin_user
 
 router = APIRouter()
 
-@router.post("/", response_model=schemas.UserResponse)
+@router.post("", response_model=schemas.UserResponse)
 def create_user(user: schemas.UserCreate, db: Session = Depends(database.get_db), current_user: models.User = Depends(get_admin_user)):
     db_user = db.query(models.User).filter(models.User.email == user.email).first()
     if db_user:
@@ -31,7 +31,7 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(database.get_db)
     db.refresh(new_user)
     return new_user
 
-@router.get("/", response_model=List[schemas.UserResponse])
+@router.get("", response_model=List[schemas.UserResponse])
 def get_users(skip: int = 0, limit: int = 100, db: Session = Depends(database.get_db), current_user: models.User = Depends(get_admin_user)):
     return db.query(models.User).offset(skip).limit(limit).all()
 
