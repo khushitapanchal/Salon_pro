@@ -63,7 +63,12 @@ export default function UsersPage() {
             setUsers(Array.isArray(response.data) ? response.data : []);
         } catch (err: any) {
             console.error('Error fetching users:', err);
-            setError(err.response?.data?.detail || 'Failed to fetch the personnel registry. Please authenticate as an administrator.');
+            const detail = err.response?.data?.detail;
+            if (err.response) {
+                setError(typeof detail === 'string' ? detail : 'Unauthorized. Admin permissions required.');
+            } else {
+                setError('Network Error: Could not reach the API. Verify your NEXT_PUBLIC_API_URL configuration in Vercel.');
+            }
         }
     };
 
