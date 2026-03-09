@@ -38,10 +38,10 @@ export default function UsersPage() {
         service_ids: [] as number[]
     });
     const [error, setError] = useState('');
+    const [isFetching, setIsFetching] = useState(true);
 
     useEffect(() => {
-        fetchUsers();
-        fetchServices();
+        Promise.all([fetchUsers(), fetchServices()]).finally(() => setIsFetching(false));
     }, []);
 
     const fetchServices = async () => {
@@ -56,10 +56,10 @@ export default function UsersPage() {
     const fetchUsers = async () => {
         try {
             const response = await api.get('/users');
-            setUsers(response.data);
+            setUsers(Array.isArray(response.data) ? response.data : []);
         } catch (err: any) {
             console.error('Error fetching users:', err);
-            // Non-admin users might not have access, handle gracefully or show error
+            setError(err.response?.data?.detail || 'Failed to fetch the personnel registry. Please authenticate as an administrator.');
         }
     };
 
@@ -186,70 +186,93 @@ export default function UsersPage() {
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100">
-                        {users.map((u) => (
-                            <tr key={u.id} className="hover:bg-purple-50/20 transition-colors group">
-                                <td className="px-10 py-6">
-                                    <div className="flex items-center gap-5">
-                                        <div className="w-12 h-12 bg-navy-900 text-white rounded-2xl flex items-center justify-center font-black shadow-xl group-hover:scale-110 transition-transform duration-500 font-display text-lg uppercase">
-                                            {u.name[0]}
-                                        </div>
-                                        <div>
-                                            <div className="font-black text-slate-800 uppercase tracking-tight text-sm font-display">{u.name}</div>
-                                            <div className={`text-[9px] uppercase font-black tracking-[0.2em] mt-1.5 px-2.5 py-1 rounded-lg w-fit ${u.status === 'active' ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' : 'bg-slate-50 text-slate-400 border border-slate-100'}`}>
-                                                {u.status}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td className="px-10 py-6">
-                                    <div className="text-navy-950 font-black text-[13px] tracking-tight truncate max-w-[180px]">{u.email}</div>
-                                    <div className="text-slate-400 text-[10px] font-black uppercase tracking-widest mt-1">{u.phone || '-'}</div>
-                                </td>
-                                <td className="px-10 py-6">
-                                    <div className="flex flex-wrap gap-2">
-                                        {u.services && u.services.length > 0 ? (
-                                            u.services.map(s => (
-                                                <span key={s.id} className="bg-white text-navy-900 text-[9px] font-black px-3 py-1.5 rounded-xl border border-navy-100 uppercase tracking-widest shadow-sm">
-                                                    {s.name}
-                                                </span>
-                                            ))
-                                        ) : (
-                                            <span className="text-slate-300 font-black text-[9px] uppercase tracking-[0.3em] font-display italic">Unspecialized</span>
-                                        )}
-                                    </div>
-                                </td>
-                                <td className="px-10 py-6">
-                                    <span className={`px-5 py-2 rounded-2xl text-[9px] font-black uppercase tracking-[0.2em] shadow-lg border ${u.role?.toLowerCase() === 'admin'
-                                        ? 'bg-purple-600 text-white border-purple-500 shadow-purple-200/50'
-                                        : 'bg-navy-900 text-white border-navy-800 shadow-navy-100/50'
-                                        }`}>
-                                        {u.role}
-                                    </span>
-                                </td>
-                                <td className="px-10 py-6 text-right">
-                                    <div className="flex justify-end gap-3 transition-all">
-                                        <button
-                                            onClick={() => handleOpenModal(u)}
-                                            className="p-3 text-slate-400 hover:text-purple-600 hover:bg-white rounded-2xl transition-all border border-transparent hover:border-purple-100 shadow-sm"
-                                            title="Edit Specialist"
-                                        >
-                                            <Pencil size={18} />
-                                        </button>
-                                        <button
-                                            onClick={() => handleDelete(u.id)}
-                                            disabled={u.id === currentUser?.id}
-                                            className={`p-3 rounded-2xl transition-all border border-transparent shadow-sm ${u.id === currentUser?.id
-                                                ? 'text-slate-200 cursor-not-allowed bg-slate-50'
-                                                : 'text-slate-400 hover:text-rose-500 hover:bg-white hover:border-rose-100'
-                                                }`}
-                                            title="Delete Specialist"
-                                        >
-                                            <Trash2 size={18} />
-                                        </button>
+                        {isFetching ? (
+                            <tr>
+                                <td colSpan={5} className="px-10 py-20 text-center">
+                                    <div className="flex flex-col items-center gap-4 text-slate-400">
+                                        <div className="w-10 h-10 border-4 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
+                                        <p className="font-black uppercase tracking-[0.2em] text-[10px]">Retrieving secure dossier...</p>
                                     </div>
                                 </td>
                             </tr>
-                        ))}
+                        ) : users.length === 0 ? (
+                            <tr>
+                                <td colSpan={5} className="px-10 py-24 text-center">
+                                    <div className="flex flex-col items-center gap-4 text-slate-300">
+                                        <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center border border-slate-100 mb-2">
+                                            <Check size={32} className="opacity-20" />
+                                        </div>
+                                        <h3 className="font-black uppercase tracking-widest text-xs text-slate-400">Registry clear</h3>
+                                        <p className="font-bold text-[9px] uppercase tracking-[0.3em] opacity-60">No specialist artisan records found in the secure database.</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        ) : (
+                            users.map((u) => (
+                                <tr key={u.id} className="hover:bg-purple-50/20 transition-colors group">
+                                    <td className="px-10 py-6">
+                                        <div className="flex items-center gap-5">
+                                            <div className="w-12 h-12 bg-navy-900 text-white rounded-2xl flex items-center justify-center font-black shadow-xl group-hover:scale-110 transition-transform duration-500 font-display text-lg uppercase">
+                                                {u.name[0]}
+                                            </div>
+                                            <div>
+                                                <div className="font-black text-slate-800 uppercase tracking-tight text-sm font-display">{u.name}</div>
+                                                <div className={`text-[9px] uppercase font-black tracking-[0.2em] mt-1.5 px-2.5 py-1 rounded-lg w-fit ${u.status === 'active' ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' : 'bg-slate-50 text-slate-400 border border-slate-100'}`}>
+                                                    {u.status}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td className="px-10 py-6">
+                                        <div className="text-navy-950 font-black text-[13px] tracking-tight truncate max-w-[180px]">{u.email}</div>
+                                        <div className="text-slate-400 text-[10px] font-black uppercase tracking-widest mt-1">{u.phone || '-'}</div>
+                                    </td>
+                                    <td className="px-10 py-6">
+                                        <div className="flex flex-wrap gap-2">
+                                            {u.services && u.services.length > 0 ? (
+                                                u.services.map(s => (
+                                                    <span key={s.id} className="bg-white text-navy-900 text-[9px] font-black px-3 py-1.5 rounded-xl border border-navy-100 uppercase tracking-widest shadow-sm">
+                                                        {s.name}
+                                                    </span>
+                                                ))
+                                            ) : (
+                                                <span className="text-slate-300 font-black text-[9px] uppercase tracking-[0.3em] font-display italic">Unspecialized</span>
+                                            )}
+                                        </div>
+                                    </td>
+                                    <td className="px-10 py-6">
+                                        <span className={`px-5 py-2 rounded-2xl text-[9px] font-black uppercase tracking-[0.2em] shadow-lg border ${u.role?.toLowerCase() === 'admin'
+                                            ? 'bg-purple-600 text-white border-purple-500 shadow-purple-200/50'
+                                            : 'bg-navy-900 text-white border-navy-800 shadow-navy-100/50'
+                                            }`}>
+                                            {u.role}
+                                        </span>
+                                    </td>
+                                    <td className="px-10 py-6 text-right">
+                                        <div className="flex justify-end gap-3 transition-all">
+                                            <button
+                                                onClick={() => handleOpenModal(u)}
+                                                className="p-3 text-slate-400 hover:text-purple-600 hover:bg-white rounded-2xl transition-all border border-transparent hover:border-purple-100 shadow-sm"
+                                                title="Edit Specialist"
+                                            >
+                                                <Pencil size={18} />
+                                            </button>
+                                            <button
+                                                onClick={() => handleDelete(u.id)}
+                                                disabled={u.id === currentUser?.id}
+                                                className={`p-3 rounded-2xl transition-all border border-transparent shadow-sm ${u.id === currentUser?.id
+                                                    ? 'text-slate-200 cursor-not-allowed bg-slate-50'
+                                                    : 'text-slate-400 hover:text-rose-500 hover:bg-white hover:border-rose-100'
+                                                    }`}
+                                                title="Delete Specialist"
+                                            >
+                                                <Trash2 size={18} />
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))
+                        )}
                     </tbody>
                 </table>
             </div>

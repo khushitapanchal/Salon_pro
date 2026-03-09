@@ -1,0 +1,4 @@
+﻿Testing connection to: postgresql://postgres:Khushita@123@127.0.0.1:5432/postgres
+Connection failed: (psycopg2.OperationalError) could not translate host name "123@127.0.0.1" to address: Non-recoverable failure in name resolution
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)

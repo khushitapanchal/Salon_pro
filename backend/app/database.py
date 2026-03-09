@@ -11,7 +11,7 @@ load_dotenv(env_path)
 # Get DATABASE_URL from Railway environment variables or use local PostgreSQL
 DATABASE_URL = os.getenv(
     "DATABASE_URL",
-    "postgresql://postgres:Khushita@123@localhost:5432/salon_db"
+    "postgresql://postgres:Khushita%40123@127.0.0.1:5432/salon_db"
 )
 
 # Fix for Railway/PostgreSQL URL format

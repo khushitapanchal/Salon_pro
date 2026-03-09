@@ -8,7 +8,7 @@ load_dotenv()
 
 # Test connecting to 'postgres' database which always exists
 DB_NAME = "postgres" # or "salon_db"
-DATABASE_URL = "postgresql://postgres:Khushita@localhost:5432/" + DB_NAME
+DATABASE_URL = "postgresql://postgres:Khushita%40123@127.0.0.1:5432/" + DB_NAME
 
 print(f"Testing connection to: {DATABASE_URL}")
 try:
