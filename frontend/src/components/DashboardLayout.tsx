@@ -29,7 +29,7 @@ const Sidebar = () => {
         { icon: BarChart3, label: 'Reports', href: '/reports', roles: ['admin'] },
     ];
 
-    const filteredMenuItems = menuItems.filter(item => item.roles.includes(user?.role || ''));
+    const filteredMenuItems = menuItems.filter(item => item.roles.includes(user?.role?.toLowerCase() || ''));
 
     return (
         <div className="h-full w-72 bg-gradient-to-b from-[#1e1b4b] via-[#1e1b4b] to-[#9333ea] border-r border-white/10 flex flex-col shadow-2xl z-10 font-sans relative">

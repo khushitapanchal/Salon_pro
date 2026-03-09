@@ -22,7 +22,7 @@ export default function ReportsPage() {
     const [loading, setLoading] = useState(true);
 
     const fetchReports = async () => {
-        if (currentUser?.role !== 'admin') {
+        if (currentUser?.role?.toLowerCase() !== 'admin') {
             setLoading(false);
             return;
         }
@@ -37,7 +37,7 @@ export default function ReportsPage() {
     };
 
     useEffect(() => {
-        if (!authLoading && currentUser?.role === 'admin') {
+        if (!authLoading && currentUser?.role?.toLowerCase() === 'admin') {
             fetchReports();
         }
     }, [currentUser, authLoading]);
@@ -51,7 +51,7 @@ export default function ReportsPage() {
         </DashboardLayout>
     );
 
-    if (currentUser?.role !== 'admin') {
+    if (currentUser?.role?.toLowerCase() !== 'admin') {
         return (
             <DashboardLayout>
                 <div className="flex items-center justify-center h-[70vh]">

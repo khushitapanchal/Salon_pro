@@ -51,7 +51,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         localStorage.setItem('token', token);
         const response = await api.get('/auth/me');
         setUser(response.data);
-        if (response.data.role === 'admin') {
+        if (response.data.role?.toLowerCase() === 'admin') {
             router.push('/dashboard');
         } else {
             router.push('/calendar');

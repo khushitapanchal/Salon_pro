@@ -20,7 +20,7 @@ export default function DashboardPage() {
 
     useEffect(() => {
         const fetchSummary = async () => {
-            if (currentUser?.role !== 'admin') return;
+            if (currentUser?.role?.toLowerCase() !== 'admin') return;
             try {
                 const response = await api.get('/dashboard/summary');
                 setSummary(response.data);
@@ -31,7 +31,7 @@ export default function DashboardPage() {
         fetchSummary();
     }, [currentUser]);
 
-    if (currentUser?.role !== 'admin') {
+    if (currentUser?.role?.toLowerCase() !== 'admin') {
         return (
             <DashboardLayout>
                 <div className="flex items-center justify-center h-[70vh]">

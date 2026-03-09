@@ -6,7 +6,7 @@ from .. import models, database
 from .auth import get_current_user
 from typing import Dict, List
 
-router = APIRouter(prefix="/dashboard", tags=["dashboard"])
+router = APIRouter()
 
 @router.get("/summary")
 def get_summary(db: Session = Depends(database.get_db), current_user: models.User = Depends(get_current_user)):

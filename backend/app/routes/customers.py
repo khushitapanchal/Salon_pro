@@ -4,7 +4,7 @@ from typing import List
 from .. import models, schemas, database
 from .auth import get_current_user
 
-router = APIRouter(prefix="/customers", tags=["customers"])
+router = APIRouter()
 
 @router.post("/", response_model=schemas.CustomerResponse)
 def create_customer(customer: schemas.CustomerCreate, db: Session = Depends(database.get_db), current_user: models.User = Depends(get_current_user)):

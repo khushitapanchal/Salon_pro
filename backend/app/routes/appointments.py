@@ -5,7 +5,7 @@ from datetime import date
 from .. import models, schemas, database
 from .auth import get_current_user
 
-router = APIRouter(prefix="/appointments", tags=["appointments"])
+router = APIRouter()
 
 @router.post("/", response_model=schemas.AppointmentResponse)
 def create_appointment(appointment: schemas.AppointmentCreate, db: Session = Depends(database.get_db), current_user: models.User = Depends(get_current_user)):
