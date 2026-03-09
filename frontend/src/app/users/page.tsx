@@ -23,7 +23,7 @@ interface User {
 }
 
 export default function UsersPage() {
-    const { user: currentUser } = useAuth();
+    const { user: currentUser, loading: authLoading } = useAuth();
     const [users, setUsers] = useState<User[]>([]);
     const [services, setServices] = useState<Service[]>([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -41,8 +41,12 @@ export default function UsersPage() {
     const [isFetching, setIsFetching] = useState(true);
 
     useEffect(() => {
-        Promise.all([fetchUsers(), fetchServices()]).finally(() => setIsFetching(false));
-    }, []);
+        if (!authLoading && currentUser?.role?.toLowerCase() === 'admin') {
+            Promise.all([fetchUsers(), fetchServices()]).finally(() => setIsFetching(false));
+        } else if (!authLoading) {
+            setIsFetching(false);
+        }
+    }, [currentUser, authLoading]);
 
     const fetchServices = async () => {
         try {
@@ -128,6 +132,18 @@ export default function UsersPage() {
     };
 
     // If current user is not admin, they are unauthorized to see this page.
+    // Wait for auth to load before showing restricted access
+    if (authLoading) {
+        return (
+            <DashboardLayout>
+                <div className="flex flex-col items-center justify-center h-[70vh] gap-6">
+                    <div className="w-16 h-16 border-4 border-purple-100 border-t-purple-600 rounded-full animate-spin shadow-lg"></div>
+                    <div className="text-slate-400 font-black uppercase tracking-[0.2em] text-[10px] animate-pulse">Authenticating Identity...</div>
+                </div>
+            </DashboardLayout>
+        );
+    }
+
     if (currentUser?.role?.toLowerCase() !== 'admin') {
         return (
             <DashboardLayout>
@@ -192,6 +208,19 @@ export default function UsersPage() {
                                     <div className="flex flex-col items-center gap-4 text-slate-400">
                                         <div className="w-10 h-10 border-4 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
                                         <p className="font-black uppercase tracking-[0.2em] text-[10px]">Retrieving secure dossier...</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        ) : error && users.length === 0 ? (
+                            <tr>
+                                <td colSpan={5} className="px-10 py-24 text-center">
+                                    <div className="flex flex-col items-center gap-4 text-rose-300">
+                                        <div className="w-16 h-16 bg-rose-50 rounded-full flex items-center justify-center border border-rose-100 mb-2">
+                                            <X size={32} className="opacity-40" />
+                                        </div>
+                                        <h3 className="font-black uppercase tracking-widest text-xs text-rose-500">Uplink failure</h3>
+                                        <p className="font-bold text-[9px] uppercase tracking-[0.3em] opacity-60 max-w-xs mx-auto">{error}</p>
+                                        <button onClick={() => fetchUsers()} className="mt-4 px-6 py-2 bg-rose-500 text-white rounded-xl text-[9px] font-black uppercase tracking-widest">Retry Connection</button>
                                     </div>
                                 </td>
                             </tr>

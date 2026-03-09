@@ -53,8 +53,8 @@ export default function CalendarPage() {
     const fetchData = async () => {
         try {
             const [appRes, custRes] = await Promise.all([
-                api.get('/appointments/'),
-                api.get('/customers/')
+                api.get('/appointments'),
+                api.get('/customers')
             ]);
 
             // Map customer names to appointments
@@ -103,7 +103,8 @@ export default function CalendarPage() {
                 </div>
                 <div className="grid grid-cols-7">
                     {calendarDays.map((day, i) => {
-                        const dayApps = appointments.filter(app => isSameDay(parseISO(app.date), day));
+                        const dayStr = format(day, 'yyyy-MM-dd');
+                        const dayApps = appointments.filter(app => app.date === dayStr);
                         const isCurrentMonth = isSameDay(startOfMonth(day), monthStart);
 
                         return (
@@ -178,8 +179,9 @@ export default function CalendarPage() {
                                     <div key={h} className="h-24 border-b-2 border-slate-200 border-solid box-border"></div>
                                 ))}
                                 {/* Appointments */}
-                                {appointments.filter(app => isSameDay(parseISO(app.date), day)).map(app => {
-                                    const [h, m] = app.time.split(':').map(Number);
+                                {appointments.filter(app => app.date === format(day, 'yyyy-MM-dd')).map(app => {
+                                    const timeStr = typeof app.time === 'string' ? app.time : '';
+                                    const [h, m] = timeStr.split(':').map(Number);
                                     if (h < 9 || h > 21) return null;
                                     const top = ((h - 9) * 96) + (m / 60 * 96);
                                     return (

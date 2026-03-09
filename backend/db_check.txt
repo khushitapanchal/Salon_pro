@@ -1,0 +1,5 @@
+﻿Total appointments: 2
+ID: 1, Customer ID: 1, Date: 2026-03-09 (type: <class 'datetime.date'>), Time: 12:00:00 (type: <class 'datetime.time'>)
+  Services: ['basic haircut']
+ID: 2, Customer ID: 2, Date: 2026-03-10 (type: <class 'datetime.date'>), Time: 12:00:00 (type: <class 'datetime.time'>)
+  Services: ['basic haircut']
