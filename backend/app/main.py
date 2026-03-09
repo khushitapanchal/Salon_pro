@@ -14,11 +14,15 @@ app = FastAPI(
     title="Salon Customer Management API",
     version="1.0.0"
 )
+origins = [
+    "http://localhost:3000",
+    "https://salon-3egvlapz0-khushitapanchals-projects.vercel.app",
+]
 
 # CORS configuration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # change to frontend URL in production
+    allow_origins=origins,  # change to frontend URL in production
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
