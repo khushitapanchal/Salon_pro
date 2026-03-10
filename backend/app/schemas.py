@@ -112,4 +112,4 @@ class Token(BaseModel):
 
 
 class TokenData(BaseModel):
-    email: Optional[str] = Nonepip install fastapi uvicorn sqlalchemy pydantic
+    email: Optional[str] = None
