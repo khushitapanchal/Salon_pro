@@ -1,6 +1,6 @@
 import axios from "axios";
 
-// Backend API URL
+// Backend API URL (must be HTTPS)
 const API_URL =
   process.env.NEXT_PUBLIC_API_URL ||
   "https://delightful-bravery-production-49cc.up.railway.app";
@@ -11,10 +11,10 @@ const api = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
-  timeout: 10000, // 10 seconds timeout
+  timeout: 10000, // 10 seconds
 });
 
-// Add token automatically to every request
+// Request interceptor (attach token automatically)
 api.interceptors.request.use(
   (config) => {
     if (typeof window !== "undefined") {
@@ -27,25 +27,31 @@ api.interceptors.request.use(
 
     return config;
   },
-  (error) => {
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(error)
 );
 
-// Global response error handling
+// Response interceptor (handle errors globally)
 api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response) {
+
       if (error.response.status === 401) {
-        console.error("Unauthorized: Token may be invalid or expired.");
+        console.error("Unauthorized: Token invalid or expired");
       }
+
       else if (error.response.status === 404) {
         console.error("API endpoint not found:", error.config?.url);
       }
+
+      else if (error.response.status === 500) {
+        console.error("Server error:", error.response.data);
+      }
+
       else {
         console.error("API error:", error.response.data);
       }
+
     } else {
       console.error("Network error or backend not reachable:", error.message);
     }
