@@ -16,7 +16,7 @@ app = FastAPI(
 )
 origins = [
     "http://localhost:3000",
-    "https://salon-3egvlapz0-khushitapanchals-projects.vercel.app",
+    "https://*.vercel.app",
 ]
 
 # CORS configuration
