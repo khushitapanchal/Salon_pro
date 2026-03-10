@@ -13,18 +13,10 @@ app = FastAPI(
     title="Salon Customer Management API",
     version="1.0.0"
 )
-
-# Allowed frontend domains
-origins = [
-    "http://localhost:3000",
-    "https://salon-pro-lilac.vercel.app",
-    "https://salon-annexcpmn-khushitapanchals-projects.vercel.app"
-]
-
-# Enable CORS (important for Vercel frontend)
+# Allow all origins (best for Vercel deployments)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
