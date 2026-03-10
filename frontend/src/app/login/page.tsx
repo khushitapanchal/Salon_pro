@@ -1,9 +1,10 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import api from '@/lib/api';
-import { User, ShieldCheck, Mail, Lock, LogIn } from 'lucide-react';
+import { ShieldCheck, Mail, Lock, LogIn } from 'lucide-react';
 
 export default function LoginPage() {
 
@@ -13,6 +14,7 @@ export default function LoginPage() {
     const [isLoading, setIsLoading] = useState(false);
 
     const { login } = useAuth();
+    const router = useRouter();
 
     const handleSubmit = async (e: React.FormEvent) => {
 
@@ -32,8 +34,19 @@ export default function LoginPage() {
                 },
             });
 
-            if (response.data && response.data.access_token) {
-                await login(response.data.access_token);
+            if (response.data?.access_token) {
+
+                const token = response.data.access_token;
+
+                // Save token in localStorage
+                localStorage.setItem('token', token);
+
+                // Save token in auth context
+                await login(token);
+
+                // Redirect to dashboard
+                router.push('/dashboard');
+
             } else {
                 setError("Invalid server response.");
             }
