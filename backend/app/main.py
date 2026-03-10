@@ -8,26 +8,29 @@ from .database import engine
 # Create database tables
 models.Base.metadata.create_all(bind=engine)
 
+# Create FastAPI app
 app = FastAPI(
     title="Salon Customer Management API",
     version="1.0.0"
 )
 
-# CORS configuration
+# Allowed frontend domains
 origins = [
     "http://localhost:3000",
+    "https://salon-pro-lilac.vercel.app",
     "https://salon-annexcpmn-khushitapanchals-projects.vercel.app"
 ]
 
+# Enable CORS (important for Vercel frontend)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,   # allow frontend domains
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Include API routers
+# Register routers
 app.include_router(create_admin.router)
 
 app.include_router(
@@ -66,7 +69,7 @@ app.include_router(
     tags=["Dashboard"]
 )
 
-# Root route
+# Root endpoint
 @app.get("/")
 async def root():
     return {
