@@ -1,10 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.routes import auth, appointments, customers, dashboard, services, users
-from app import models
-from app.database import engine
-from app.routes import create_admin
+from .routes import auth, appointments, customers, dashboard, services, users
+from . import models
+from .database import engine
+from .routes import create_admin
 
 # Create database tables
 models.Base.metadata.create_all(bind=engine)

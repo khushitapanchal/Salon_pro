@@ -1,8 +1,11 @@
 import axios from "axios";
 
-// Base API URL (from Vercel environment variable)
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "";
+// Backend API URL
+const API_URL =
+  process.env.NEXT_PUBLIC_API_URL ||
+  "https://delightful-bravery-production-49cc.up.railway.app";
 
+// Create axios instance
 const api = axios.create({
   baseURL: API_URL,
   headers: {
@@ -11,13 +14,13 @@ const api = axios.create({
   timeout: 10000, // 10 seconds timeout
 });
 
-// Add token automatically to requests
+// Add token automatically to every request
 api.interceptors.request.use(
   (config) => {
     if (typeof window !== "undefined") {
       const token = localStorage.getItem("token");
 
-      if (token && config.headers) {
+      if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }
     }
@@ -29,15 +32,19 @@ api.interceptors.request.use(
   }
 );
 
-// Handle response errors globally
+// Global response error handling
 api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response) {
       if (error.response.status === 401) {
         console.error("Unauthorized: Token may be invalid or expired.");
-      } else if (error.response.status === 404) {
+      }
+      else if (error.response.status === 404) {
         console.error("API endpoint not found:", error.config?.url);
+      }
+      else {
+        console.error("API error:", error.response.data);
       }
     } else {
       console.error("Network error or backend not reachable:", error.message);
