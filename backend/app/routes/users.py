@@ -5,10 +5,7 @@ from typing import List
 from .. import models, schemas, database, authutils
 from .auth import get_current_user, get_admin_user
 
-router = APIRouter(
-    prefix="/users",
-    tags=["Users"]
-)
+router = APIRouter()
 
 # CREATE USER
 @router.post("/", response_model=schemas.UserResponse, status_code=status.HTTP_201_CREATED)
@@ -17,7 +14,6 @@ def create_user(
     db: Session = Depends(database.get_db),
     current_user: models.User = Depends(get_admin_user)
 ):
-    # Check if email already exists
     existing_user = db.query(models.User).filter(models.User.email == user.email).first()
     if existing_user:
         raise HTTPException(
@@ -25,7 +21,6 @@ def create_user(
             detail="Email already registered"
         )
 
-    # Hash password
     hashed_password = authutils.get_password_hash(user.password)
 
     new_user = models.User(
@@ -37,7 +32,6 @@ def create_user(
         status=user.status
     )
 
-    # Attach services if provided
     if user.service_ids:
         services = db.query(models.Service).filter(models.Service.id.in_(user.service_ids)).all()
         new_user.services = services
@@ -97,7 +91,6 @@ def update_user(
 
     update_data = user_update.dict(exclude_unset=True)
 
-    # Handle password update
     if "password" in update_data:
         if update_data["password"]:
             update_data["password"] = authutils.get_password_hash(update_data["password"])
@@ -106,11 +99,9 @@ def update_user(
 
     service_ids = update_data.pop("service_ids", None)
 
-    # Update user fields
     for key, value in update_data.items():
         setattr(db_user, key, value)
 
-    # Update services
     if service_ids is not None:
         services = db.query(models.Service).filter(models.Service.id.in_(service_ids)).all()
         db_user.services = services
